@@ -54,9 +54,7 @@ public class RedisDelayQueueRunner implements CommandLineRunner {
                         if(value != null){
 //                            RedisDelayQueueHandle<Object> redisDelayQueueHandle = (RedisDelayQueueHandle<Object>)applicationContext.getBean(queueEnum.getBeanId());
                             RedisDelayQueueHandle<Object> redisDelayQueueHandle = handleMap.get(queueEnum.getBeanId());
-                            executorService.execute(()->{
-                                redisDelayQueueHandle.execuete(value);
-                            });
+                            executorService.execute(()-> redisDelayQueueHandle.execuete(value));
 
                         }
                     }
