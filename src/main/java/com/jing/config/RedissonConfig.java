@@ -1,9 +1,11 @@
 package com.jing.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  * @Version: 1.0
  **/
+@Slf4j
 @Configuration
 public class RedissonConfig {
 
@@ -25,7 +28,8 @@ public class RedissonConfig {
         this.redisProperties = redisProperties;
     }
 
-    public RedissonClient redissionClient(){
+    @Bean
+    public RedissonClient redissonClient(){
         Config config = new Config();
         String url = REDISSON_PREFIX + redisProperties.getHost()+ ":"+redisProperties.getPort();
         config.useSingleServer()
@@ -35,10 +39,10 @@ public class RedissonConfig {
                 .setPingConnectionInterval(2000);
         config.setLockWatchdogTimeout(10000L);
         try {
+            log.info("============实例化redissonClient配置=============");
             return Redisson.create(config);
         }catch (Exception e){
             return null;
         }
-
     }
 }
